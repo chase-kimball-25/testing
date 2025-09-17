@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mobile-optimized field audit application">
+    <meta name="theme-color" content="#0281A6">
+    <title>Field Audit Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen">
+        <div class="container">
+            <h1>Field Audit Tool</h1>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Permissions Screen -->
+    <!-- COMMENTED OUT FOR NOW
+    <div id="permissions-screen" class="screen active">
+        <div class="container">
+            <h2>Permissions</h2>
+            <div class="permission-item">
+                <p>Allow Field Audit Tool to access photos, media, and files on your device?</p>
+                <div class="permission-buttons">
+                    <button class="btn-secondary" data-permission="photos" data-action="deny">Deny</button>
+                    <button class="btn-primary" data-permission="photos" data-action="allow">Allow</button>
+                </div>
+            </div>
+            <div class="permission-item">
+                <p>Allow Field Audit Tool to record audio?</p>
+                <div class="permission-buttons">
+                    <button class="btn-secondary" data-permission="audio" data-action="deny">Deny</button>
+                    <button class="btn-secondary" data-permission="audio" data-action="once">Only this time</button>
+                    <button class="btn-primary" data-permission="audio" data-action="allow">While using the app</button>
+                </div>
+            </div>
+            <div class="permission-item">
+                <p>Allow Field Audit Tool to access this device's location?</p>
+                <div class="permission-buttons">
+                    <button class="btn-secondary" data-permission="location" data-action="deny">Deny</button>
+                    <button class="btn-secondary" data-permission="location" data-action="once">Only this time</button>
+                    <button class="btn-primary" data-permission="location" data-action="allow">While using the app</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Permissions Required Screen -->
+    <div id="permissions-required-screen" class="screen">
+        <div class="container">
+            <h2>Permissions Required</h2>
+            <p>The Field Audit Tool needs these permissions:</p>
+            <ul>
+                <li>Photos, media and files</li>
+                <li>Recording</li>
+                <li>Location</li>
+            </ul>
+            <div class="button-group">
+                <button class="btn-secondary" id="close-permissions">CLOSE</button>
+                <button class="btn-primary" id="go-to-settings">GO TO SETTINGS</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Permissions Access Screen -->
+    <div id="permissions-access-screen" class="screen">
+        <div class="container">
+            <h2>Permissions</h2>
+            <p>This app will need permission to access your device.</p>
+            <button class="btn-primary" id="allow-access">Allow Access</button>
+        </div>
+    </div>
+
+    <!-- Work Order Tasks Screen -->
+    <div id="work-order-screen" class="screen active">
+        <div class="header">
+            <button class="back-btn" id="back-to-main">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Contractor Name</h1>
+        </div>
+        <div class="container">
+            <div class="task-list">
+                <div class="task-item" data-task="office-interview">
+                    <div class="task-info">
+                        <h3>Office Interview Paper Audit</h3>
+                    </div>
+                    <div class="progress-circle">
+                        <span>0/10</span>
+                    </div>
+                </div>
+                <div class="task-item" data-task="management-team">
+                    <div class="task-info">
+                        <h3>Management Team Interviews</h3>
+                    </div>
+                    <div class="progress-circle">
+                        <span>0/2</span>
+                    </div>
+                </div>
+                <div class="task-item" data-task="field-interview">
+                    <div class="task-info">
+                        <h3>Field Interview Audit</h3>
+                    </div>
+                    <div class="progress-circle">
+                        <span>0/10</span>
+                    </div>
+                </div>
+                <div class="task-item" data-task="observe-live">
+                    <div class="task-info">
+                        <h3>Observe Live Interview</h3>
+                    </div>
+                    <div class="progress-circle">
+                        <span>0/1</span>
+                    </div>
+                </div>
+                <div class="task-item" data-task="unfinished-check">
+                    <div class="task-info">
+                        <h3>Unfinished Interview Check</h3>
+                    </div>
+                    <div class="progress-circle">
+                        <span>0/1</span>
+                    </div>
+                </div>
+                <div class="task-item" data-task="summary">
+                    <div class="task-info">
+                        <h3>Summary</h3>
+                    </div>
+                    <div class="progress-circle">
+                        <span>0/1</span>
+                    </div>
+                </div>
+            </div>
+            <p class="auto-save-text">Your progress is automatically saved in each task. Once all tasks are complete, tap Submit Audit to submit.</p>
+            <button class="btn-primary submit-btn" id="submit-audit" disabled>Submit Audit</button>
+        </div>
+    </div>
+
+    <!-- Office Interview Paper Audit Screen -->
+    <div id="office-interview-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-work-order">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Office Interview Paper Audit</h1>
+        </div>
+        <div class="container">
+            <div class="interview-list">
+                <!-- Interviews will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Individual Interview Screen -->
+    <div id="individual-interview-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-interview-list">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Office Interview Paper Audit</h1>
+        </div>
+        <div class="sub-header">
+            <div id="interview-id"></div>
+            <div class="step-indicator">
+                <span id="current-step">Step 1 of 4</span>
+            </div>
+        </div>
+        <div class="step-content">
+            <div id="step-content-area">
+                <!-- Step content will be dynamically loaded -->
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-secondary" id="previous-step" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+                Previous
+            </button>
+            <button class="btn-primary" id="next-step">
+                Next
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4L10.59 5.41L16.17 11L4 11L4 13L16.17 13L10.59 18.59L12 20L20 12L12 4Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="btn-primary" id="finish-interview" style="display: none;">Finish Interview</button>
+        </div>
+    </div>
+
+    <!-- Field Interview Tasks Screen -->
+    <div id="field-interview-tasks-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-work-order-from-field-tasks">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Field Interview Audit</h1>
+        </div>
+        <div class="container">
+            <div class="view-photos-section">
+                <div class="view-photos-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2" fill="none"/>
+                        <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                    <span>View interview photos</span>
+                </div>
+            </div>
+            <div id="field-interview-tasks-list">
+                <!-- Interview task items will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Field Interview Screen -->
+    <div id="field-interview-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-field-tasks-from-interview">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Field Interview Audit</h1>
+            <button class="edit-btn" id="edit-field-interviews" style="display: none;">Edit</button>
+        </div>
+        <div class="container">
+            <div id="field-interview-list">
+                <!-- Interview items will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Field Interview Step Screen -->
+    <div id="field-interview-step-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-field-interviews">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Field Interview Audit</h1>
+        </div>
+        <div class="subheader">
+            <div class="interview-id" id="field-interview-id">GH55_001_20201225_1111</div>
+            <div class="step-counter" id="field-step-counter">Step 1 of 6</div>
+        </div>
+        <div class="container">
+            <div class="step-content" id="field-step-content">
+                <!-- Step content will be dynamically generated -->
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-secondary" id="field-prev-step" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+                Previous
+            </button>
+            <button class="btn-primary" id="field-next-step">
+                Next
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4L10.59 5.41L16.17 11L4 11L4 13L16.17 13L10.59 18.59L12 20L20 12L12 4Z" fill="currentColor"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Management Team Interviews Screen -->
+    <div id="management-team-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-work-order-from-management">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Management Team Interviews</h1>
+            <button class="edit-btn" id="edit-management-interviews" style="display: none;">Edit</button>
+        </div>
+        <div class="container">
+            <div class="management-interview-list">
+                <!-- Management interviews will be dynamically generated -->
+            </div>
+            <!-- Empty state content -->
+            <div id="management-empty-state" class="empty-state">
+                <h2>Add a Manager Interview</h2>
+                <p>Interview every available manager. You must add 2 Manager Interviews, but you can add up to 4. Tap the <strong>plus button</strong> to add an interview.</p>
+            </div>
+            <!-- Floating plus button -->
+            <button class="floating-plus-btn" id="add-management-interview">+</button>
+        </div>
+    </div>
+
+    <!-- Individual Management Interview Screen -->
+    <div id="individual-management-interview-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-management-list">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Management Team Interviews</h1>
+            <button class="edit-btn" id="edit-recordings" style="display: none;">Edit</button>
+        </div>
+        <div class="sub-header">
+            <div id="management-interview-id">Manager Interview 1</div>
+            <div class="step-indicator">
+                <span id="current-management-step">Step 1 of 4</span>
+            </div>
+        </div>
+        <div class="step-content">
+            <div id="management-step-content-area">
+                <!-- Step content will be dynamically loaded -->
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-secondary" id="previous-management-step" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+                Previous
+            </button>
+            <button class="btn-primary" id="next-management-step">
+                Next
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4L10.59 5.41L16.17 11L4 11L4 13L16.17 13L10.59 18.59L12 20L20 12L12 4Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="btn-primary" id="finish-management-interview" style="display: none;">Finish Interview</button>
+        </div>
+    </div>
+
+    <!-- Recording Screen -->
+    <!-- Management Team Interview Recording Screen -->
+    <div id="management-recording-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-management-step">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Management Team Interviews</h1>
+        </div>
+        <div class="sub-header">
+            <span id="management-recording-interview-name">Manager Interview 1</span>
+            <span id="management-recording-step">Step 2 of 4</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Create interview recordings.</h2>
+            
+            <div class="recording-list">
+                <div class="recording-item" data-recording="sound-check">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">Sound Check</div>
+                        <div class="recording-subtitle">(optional)</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+                
+                <div class="recording-item" data-recording="familysearch-expectations">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip1_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip1_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">FamilySearch Expectations</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+                
+                <div class="recording-item" data-recording="quality-of-interviews">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip2_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip2_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">Quality of Interviews</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+                
+                <div class="recording-item" data-recording="interview-fabrication">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip3_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip3_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">Interview Fabrication</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+                
+                <div class="recording-item" data-recording="responding-to-fraud">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip4_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip4_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">Responding to Fraud</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn-secondary" id="previous-management-recording">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                    </svg>
+                    Previous
+                </button>
+                <button class="btn-primary" id="next-management-recording">
+                    Next
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L10.59 5.41L16.17 11L4 11L4 13L16.17 13L10.59 18.59L12 20L20 12L12 4Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Field Interview Recording Screen -->
+    <div id="field-recording-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-field-step">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Field Interview Audit</h1>
+        </div>
+        <div class="sub-header">
+            <span id="field-recording-interview-name">Interview 1</span>
+            <span id="field-recording-step">Step 2 of 6</span>
+        </div>
+        <div class="container">
+            <h2 class="section-title">Create interview recordings.</h2>
+            
+            <div class="recording-list">
+                <div class="recording-item" data-recording="sound-check">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip5_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip5_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">Sound Check (optional)</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+                
+                <div class="recording-item" data-recording="names-from-last-page">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip6_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip6_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">Names from Page 5</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+                
+                <div class="recording-item" data-recording="names-from-random-page">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip7_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip7_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title" id="random-page-title">Names from Page 3</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+                
+                <div class="recording-item" data-recording="immediate-family-names">
+                    <div class="recording-icon">
+                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip8_20288_37039)">
+                                <path d="M9.36523 11C10.6102 11 11.6152 9.995 11.6152 8.75V4.25C11.6152 3.005 10.6102 2 9.36523 2C8.12023 2 7.11523 3.005 7.11523 4.25V8.75C7.11523 9.995 8.12023 11 9.36523 11ZM8.61523 4.25C8.61523 3.8375 8.95273 3.5 9.36523 3.5C9.77773 3.5 10.1152 3.8375 10.1152 4.25V8.75C10.1152 9.1625 9.77773 9.5 9.36523 9.5C8.95273 9.5 8.61523 9.1625 8.61523 8.75V4.25ZM13.1152 8.75C13.1152 10.82 11.4352 12.5 9.36523 12.5C7.29523 12.5 5.61523 10.82 5.61523 8.75H4.11523C4.11523 11.3975 6.07273 13.5725 8.61523 13.94V16.25H10.1152V13.94C12.6577 13.5725 14.6152 11.3975 14.6152 8.75H13.1152V8.75Z" fill="#0072F0"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip8_20288_37039">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.365234 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="recording-content">
+                        <div class="recording-title">Immediate Family Names</div>
+                    </div>
+                    <div class="recording-status"></div>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn-secondary" id="previous-field-recording">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                    </svg>
+                    Previous
+                </button>
+                <button class="btn-primary" id="next-field-recording">
+                    Next
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L10.59 5.41L16.17 11L4 11L4 13L16.17 13L10.59 18.59L12 20L20 12L12 4Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sound Check Recording Screen -->
+    <div id="sound-check-recording-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-from-sound-check">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.5195 20.3701L13.9295 18.9601L8.34953 13.3701L20.5195 13.3701L20.5195 11.3701L8.34953 11.3701L13.9295 5.78012L12.5195 4.37012L4.51953 12.3701L12.5195 20.3701Z" fill="#656666"/>
+                </svg>
+            </button>
+            <h1 id="sound-check-title">Sound Check (optional)</h1>
+        </div>
+        
+        <div class="sound-check-content">
+            <div class="recording-instruction">
+                <p>Ask the manager to speak into the microphone at a normal volume.</p>
+            </div>
+            
+            <div class="timer-display">
+                <span id="sound-check-timer">00:10</span>
+            </div>
+            
+            <div class="recording-controls">
+                <button id="sound-check-record-btn" class="record-btn large">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="3" fill="white"/>
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="white"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="12" y1="19" x2="12" y2="23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="8" y1="23" x2="16" y2="23" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="record-label" id="sound-check-record-label">Start</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sound Check Playback Screen - Good Quality -->
+    <div id="sound-check-good-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-from-good-sound-check" onclick="completeSoundCheck()">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.5195 20.3701L13.9295 18.9601L8.34953 13.3701L20.5195 13.3701L20.5195 11.3701L8.34953 11.3701L13.9295 5.78012L12.5195 4.37012L4.51953 12.3701L12.5195 20.3701Z" fill="#656666"/>
+                </svg>
+            </button>
+            <h1>Sound Check</h1>
+        </div>
+        
+        <div class="sound-check-result">
+            <div class="quality-message">
+                <h2>Sound quality is good!</h2>
+            </div>
+            
+            <div class="playback-controls">
+                <button id="good-play-btn" class="play-btn large" onclick="simulatePlayback('good')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="5,3 19,12 5,21" fill="white"/>
+                    </svg>
+                </button>
+                <div class="play-label">Play</div>
+            </div>
+            
+            <div class="playback-scrubber">
+                <span class="time-start">00:00</span>
+                <div class="scrubber-container">
+                    <svg width="162" height="32" viewBox="0 0 162 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="28.4531" y1="14.543" x2="161.621" y2="14.543" stroke="#B1B2B2" stroke-width="2.5"/>
+                        <circle cx="16.1211" cy="15.793" r="13.5" stroke="#B1B2B2" stroke-width="4"/>
+                    </svg>
+                </div>
+                <span class="time-end">00:10</span>
+            </div>
+            
+            <div class="redo-controls">
+                <button id="good-redo-btn" class="redo-btn" onclick="redoSoundCheck()">
+                    <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1113 0.746103C12.1422 0.743887 10.1921 1.13255 8.37427 1.88956C6.55641 2.64657 4.9069 3.75687 3.52133 5.1561L0.611328 2.2461V11.2461H9.61133L5.63633 7.2711C7.0311 5.87295 8.74938 4.84066 10.6388 4.26578C12.5281 3.6909 14.5302 3.59122 16.4673 3.97558C18.4044 4.35993 20.2168 5.21644 21.7435 6.46913C23.2703 7.72181 24.4643 9.33195 25.2196 11.1567C25.9749 12.9815 26.2681 14.9644 26.0734 16.9297C25.8786 18.8949 25.2018 20.7818 24.103 22.4227C23.0041 24.0637 21.5173 25.4082 19.7744 26.3368C18.0314 27.2654 16.0862 27.7495 14.1113 27.7461V30.7461C18.0896 30.7461 21.9049 29.1657 24.7179 26.3527C27.531 23.5397 29.1113 19.7244 29.1113 15.7461C29.1113 11.7679 27.531 7.95255 24.7179 5.1395C21.9049 2.32646 18.0896 0.746103 14.1113 0.746103Z" fill="#0281A6"/>
+                    </svg>
+                </button>
+                <div class="redo-label">Redo</div>
+            </div>
+            
+            <button id="good-done-btn" class="btn-primary done-btn" onclick="completeSoundCheck()">Done</button>
+        </div>
+    </div>
+
+    <!-- Sound Check Playback Screen - Bad Quality -->
+    <div id="sound-check-bad-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-from-bad-sound-check" onclick="completeSoundCheck()">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.5195 20.3701L13.9295 18.9601L8.34953 13.3701L20.5195 13.3701L20.5195 11.3701L8.34953 11.3701L13.9295 5.78012L12.5195 4.37012L4.51953 12.3701L12.5195 20.3701Z" fill="#656666"/>
+                </svg>
+            </button>
+            <h1>Sound Check</h1>
+        </div>
+        
+        <div class="sound-check-result">
+            <div class="quality-message bad">
+                <h2>Bad sound quality</h2>
+                <p>Check microphone settings.</p>
+            </div>
+            
+            <div class="playback-controls">
+                <button id="bad-play-btn" class="play-btn large" onclick="simulatePlayback('bad')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="5,3 19,12 5,21" fill="white"/>
+                    </svg>
+                </button>
+                <div class="play-label">Play</div>
+            </div>
+            
+            <div class="playback-scrubber">
+                <span class="time-start">00:00</span>
+                <div class="scrubber-container">
+                    <svg width="162" height="32" viewBox="0 0 162 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="28.4531" y1="14.543" x2="161.621" y2="14.543" stroke="#B1B2B2" stroke-width="2.5"/>
+                        <circle cx="16.1211" cy="15.793" r="13.5" stroke="#B1B2B2" stroke-width="4"/>
+                    </svg>
+                </div>
+                <span class="time-end">00:10</span>
+            </div>
+            
+            <div class="redo-controls">
+                <button id="bad-redo-btn" class="redo-btn" onclick="redoSoundCheck()">
+                    <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1113 0.746103C12.1422 0.743887 10.1921 1.13255 8.37427 1.88956C6.55641 2.64657 4.9069 3.75687 3.52133 5.1561L0.611328 2.2461V11.2461H9.61133L5.63633 7.2711C7.0311 5.87295 8.74938 4.84066 10.6388 4.26578C12.5281 3.6909 14.5302 3.59122 16.4673 3.97558C18.4044 4.35993 20.2168 5.21644 21.7435 6.46913C23.2703 7.72181 24.4643 9.33195 25.2196 11.1567C25.9749 12.9815 26.2681 14.9644 26.0734 16.9297C25.8786 18.8949 25.2018 20.7818 24.103 22.4227C23.0041 24.0637 21.5173 25.4082 19.7744 26.3368C18.0314 27.2654 16.0862 27.7495 14.1113 27.7461V30.7461C18.0896 30.7461 21.9049 29.1657 24.7179 26.3527C27.531 23.5397 29.1113 19.7244 29.1113 15.7461C29.1113 11.7679 27.531 7.95255 24.7179 5.1395C21.9049 2.32646 18.0896 0.746103 14.1113 0.746103Z" fill="#0281A6"/>
+                    </svg>
+                </button>
+                <div class="redo-label">Redo</div>
+            </div>
+            
+            <button id="bad-done-btn" class="btn-primary done-btn" onclick="completeSoundCheck()">Done</button>
+        </div>
+    </div>
+
+    <!-- Keep the old recording screen for individual recording sessions -->
+    <div id="recording-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-recording-list">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1 id="recording-title">Sound Check</h1>
+        </div>
+        <div class="container">
+            <div class="recording-screen">
+                <div id="recording-instruction" class="instruction">
+                    Ask the manager to speak into the microphone at a normal volume.
+                </div>
+                
+                <div id="sound-quality-feedback" class="sound-quality-feedback" style="display: none;">
+                    <h2 id="quality-message">Sound quality is good!</h2>
+                    <p id="quality-instruction" style="display: none;">Check microphone settings.</p>
+                </div>
+                
+                <div id="recording-timer" class="recording-timer">00:00</div>
+                
+                <div class="recording-controls">
+                    <button class="record-btn" id="record-btn">
+                        <span id="record-icon">
+                            <svg width="24" height="24" viewBox="0 0 49 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M24.623 30.9023C26.2143 30.9023 27.7405 30.2702 28.8657 29.145C29.9909 28.0198 30.623 26.4936 30.623 24.9023V12.9023C30.623 11.311 29.9909 9.78492 28.8657 8.6597C27.7405 7.53448 26.2143 6.90234 24.623 6.90234C23.0317 6.90234 21.5056 7.53448 20.3804 8.6597C19.2552 9.78492 18.623 11.311 18.623 12.9023V24.9023C18.623 26.4936 19.2552 28.0198 20.3804 29.145C21.5056 30.2702 23.0317 30.9023 24.623 30.9023ZM22.623 12.9023C22.623 12.3719 22.8338 11.8632 23.2088 11.4881C23.5839 11.1131 24.0926 10.9023 24.623 10.9023C25.1535 10.9023 25.6622 11.1131 26.0373 11.4881C26.4123 11.8632 26.623 12.3719 26.623 12.9023V24.9023C26.623 25.4328 26.4123 25.9415 26.0373 26.3166C25.6622 26.6916 25.1535 26.9023 24.623 26.9023C24.0926 26.9023 23.5839 26.6916 23.2088 26.3166C22.8338 25.9415 22.623 25.4328 22.623 24.9023V12.9023ZM24.623 34.9023C27.2752 34.9023 29.8188 33.8488 31.6941 31.9734C33.5695 30.098 34.623 27.5545 34.623 24.9023H38.623C38.6191 28.266 37.4042 31.5159 35.2007 34.0573C32.9971 36.5987 29.9522 38.2618 26.623 38.7423V44.9023H22.623V38.7423C19.2939 38.2618 16.249 36.5987 14.0454 34.0573C11.8419 31.5159 10.627 28.266 10.623 24.9023H14.623C14.623 27.5545 15.6766 30.098 17.552 31.9734C19.4273 33.8488 21.9709 34.9023 24.623 34.9023V34.9023Z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    </button>
+                    <div class="record-btn-label" id="record-btn-label">Start</div>
+                </div>
+                
+                <div id="playback-section" style="display: none;">
+                    <div class="playback-timeline">
+                        <span class="timeline-time" id="current-time">00:00</span>
+                        <div class="timeline-slider" id="timeline-slider">
+                            <input type="range" id="timeline-input" min="0" max="10" value="0" step="0.1">
+                        </div>
+                        <span class="timeline-time" id="total-time">00:10</span>
+                    </div>
+                    
+                    <div class="playback-controls">
+                        <button class="record-btn" id="playback-btn">
+                            <span id="playback-icon">▶</span>
+                        </button>
+                        <div class="record-btn-label" id="playback-btn-label">Play</div>
+                    </div>
+                    
+                    <button class="record-btn" id="redo-btn" style="width: 60px; height: 60px; margin-top: 20px;">
+                        <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1113 0.746103C12.1422 0.743887 10.1921 1.13255 8.37427 1.88956C6.55641 2.64657 4.9069 3.75687 3.52133 5.1561L0.611328 2.2461V11.2461H9.61133L5.63633 7.2711C7.0311 5.87295 8.74938 4.84066 10.6388 4.26578C12.5281 3.6909 14.5302 3.59122 16.4673 3.97558C18.4044 4.35993 20.2168 5.21644 21.7435 6.46913C23.2703 7.72181 24.4643 9.33195 25.2196 11.1567C25.9749 12.9815 26.2681 14.9644 26.0734 16.9297C25.8786 18.8949 25.2018 20.7818 24.103 22.4227C23.0041 24.0637 21.5173 25.4082 19.7744 26.3368C18.0314 27.2654 16.0862 27.7495 14.1113 27.7461V30.7461C18.0896 30.7461 21.9049 29.1657 24.7179 26.3527C27.531 23.5397 29.1113 19.7244 29.1113 15.7461C29.1113 11.7679 27.531 7.95255 24.7179 5.1395C21.9049 2.32646 18.0896 0.746103 14.1113 0.746103Z" fill="white"/>
+                        </svg>
+                    </button>
+                    <div class="record-btn-label">Redo</div>
+                </div>
+                
+                <button class="btn-primary" id="done-recording" style="display: none; margin-top: 30px;">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Interview Screen -->
+    <div id="live-interview-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-work-order-from-live">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Observe Live Interview</h1>
+            <button class="edit-btn" id="edit-live-interviews" style="display: none;">Edit</button>
+        </div>
+        <div class="container">
+            <div class="live-interview-list">
+                <!-- Live interviews will be dynamically generated -->
+            </div>
+            <!-- Empty state content -->
+            <div id="live-empty-state" class="empty-state">
+                <h2>Add a Live Interview</h2>
+                <p>Observe and record details of live interviews conducted by field staff. You need to complete at least 1 live interview observation. Tap the <strong>plus button</strong> to add an observation.</p>
+            </div>
+            <!-- Floating plus button -->
+            <button class="floating-plus-btn live-floating-plus-btn" id="add-live-interview">+</button>
+        </div>
+    </div>
+
+    <!-- Individual Live Interview Screen -->
+    <div id="individual-live-interview-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-live-list">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Observe Live Interview</h1>
+        </div>
+        <div class="sub-header">
+            <div id="live-interview-id">Live Interview 1</div>
+            <div class="step-indicator">
+                <span id="current-live-step">Step 1 of 3</span>
+            </div>
+        </div>
+        <div class="step-content">
+            <div id="live-step-content-area">
+                <!-- Step content will be dynamically loaded -->
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-secondary" id="previous-live-step" style="display: none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+                Previous
+            </button>
+            <button class="btn-primary" id="next-live-step">
+                Next
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4L10.59 5.41L16.17 11L4 11L4 13L16.17 13L10.59 18.59L12 20L20 12L12 4Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button class="btn-primary" id="finish-live-interview" style="display: none;">Finish Interview</button>
+        </div>
+    </div>
+
+    <!-- Unfinished Interview Check Screen -->
+    <div id="unfinished-check-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-work-order-from-unfinished">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Unfinished Interview Check</h1>
+            <button class="edit-btn" id="edit-phone-checks" style="display: none;">Edit</button>
+        </div>
+        <div class="container">
+            <div class="phone-check-list">
+                <!-- Phone checks will be dynamically generated -->
+            </div>
+            <!-- Empty state content -->
+            <div id="phone-check-empty-state" class="empty-state">
+                <h2>Add a Phone Check</h2>
+                <p>Check as many phones as possible for unfinished interviews. You must add at least 1. Tap the <strong>plus button</strong> to add a Phone Check.</p>
+            </div>
+            <!-- Non-empty state hint -->
+            <div id="phone-check-hint" class="hint-text" style="display: none;">
+                <p>Check as many phones as possible. You must check at least 1.</p>
+            </div>
+            <!-- Floating plus button -->
+            <button class="floating-plus-btn phone-check-floating-plus-btn" id="add-phone-check">+</button>
+        </div>
+    </div>
+
+    <!-- Individual Phone Check Screen -->
+    <div id="individual-phone-check-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-phone-check-list">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Unfinished Interview Check</h1>
+        </div>
+        <div class="sub-header">
+            <div id="phone-check-id">Phone Check 1</div>
+        </div>
+        <div class="step-content">
+            <div id="phone-check-content-area">
+                <!-- Phone check content will be dynamically loaded -->
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-primary" id="finish-phone-check">Finish Phone Check</button>
+        </div>
+    </div>
+
+    <!-- Summary Screen -->
+    <div id="summary-screen" class="screen">
+        <div class="header">
+            <button class="back-btn" id="back-to-work-order-from-summary">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 20L13.41 18.59L7.83 13L20 13L20 11L7.83 11L13.41 5.41L12 4L4 12L12 20Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <h1>Summary</h1>
+        </div>
+        <div class="container">
+            <div class="form-content">
+                <div class="form-group">
+                    <label>Write a short summary of the audit.</label>
+                    <textarea class="input-field" id="audit-summary" rows="8" placeholder="Enter short summary here. Include details about each phase of the audit, especially any red flags about fraud or quality control. Include any ideas you have for improvement. This summary will be sent to the contractor as feedback."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Enter your initials as your signature.</label>
+                    <input type="text" class="input-field" id="auditor-initials" placeholder="Enter initials">
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button class="btn-primary" id="finish-summary">Finish Summary</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-content">
+                <h3 id="modal-title"></h3>
+                <p id="modal-message"></p>
+                <div class="modal-buttons">
+                    <button class="btn-primary" id="modal-ok">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
