@@ -981,16 +981,19 @@ const interviewSteps = {
     }
 };
 
-// DOM Elements
-const screens = document.querySelectorAll('.screen');
-const permissionButtons = document.querySelectorAll('[data-permission]');
-const modalOverlay = document.getElementById('modal-overlay');
-const modalTitle = document.getElementById('modal-title');
-const modalMessage = document.getElementById('modal-message');
-const modalOk = document.getElementById('modal-ok');
+// DOM Elements (will be initialized after DOM loads)
+let screens, permissionButtons, modalOverlay, modalTitle, modalMessage, modalOk;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize DOM elements
+    screens = document.querySelectorAll('.screen');
+    permissionButtons = document.querySelectorAll('[data-permission]');
+    modalOverlay = document.getElementById('modal-overlay');
+    modalTitle = document.getElementById('modal-title');
+    modalMessage = document.getElementById('modal-message');
+    modalOk = document.getElementById('modal-ok');
+    
     setupEventListeners();
     generateInterviewList();
     generateManagementInterviewList();
@@ -4079,29 +4082,63 @@ function validateCurrentLiveStep() {
     
     if (currentLiveStep === 1) {
         // Validate Step 1: Interview basics
-        const requiredFields = ['interview-id', 'interviewee-name', 'interviewees-count', 'interview-hours', 'names-collected'];
+        // Interview ID field - specifically look for the INPUT element
+        const interviewIdField = document.querySelector('#live-step-content-area input#interview-id');
         
-        requiredFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            if (!field?.value || field.value.trim() === '') {
-                field?.classList.add('invalid');
-                isValid = false;
+        if (!interviewIdField) {
+            isValid = false;
+        } else if (!interviewIdField.value || interviewIdField.value.trim() === '') {
+            interviewIdField.classList.add('invalid');
+            isValid = false;
+        } else {
+            interviewIdField.classList.add('valid');
+        }
+        
+        // Interviewee name field - specifically look for the INPUT element
+        const intervieweeNameField = document.querySelector('#live-step-content-area input#interviewee-name');
+        
+        if (!intervieweeNameField) {
+            isValid = false;
+        } else if (!intervieweeNameField.value || intervieweeNameField.value.trim() === '') {
+            intervieweeNameField.classList.add('invalid');
+            isValid = false;
+        } else {
+            intervieweeNameField.classList.add('valid');
+        }
+
+        // Number fields (allow 0 as valid) - specifically look for INPUT elements
+        const numberFields = ['interviewees-count', 'interview-hours', 'names-collected'];
+        numberFields.forEach(fieldId => {
+            const field = document.querySelector('#live-step-content-area input#' + fieldId);
+            if (field) {
+                const val = field.value;
+                
+                if (val === '' || val === null || isNaN(val)) {
+                    field.classList.add('invalid');
+                    isValid = false;
+                } else {
+                    field.classList.add('valid');
+                }
             } else {
-                field?.classList.add('valid');
+                isValid = false;
             }
         });
-        
+
         // Check toggles
         const qualityToggle = document.querySelector('#quality-control-toggle .toggle-option.active');
         const memoryToggle = document.querySelector('#names-memory-toggle .toggle-option.active');
         
-        if (!qualityToggle || !memoryToggle) {
+        if (!qualityToggle) {
             isValid = false;
         }
-        
+        if (!memoryToggle) {
+            isValid = false;
+        }
+
         // If names not from memory, document type is required
         if (memoryToggle && memoryToggle.dataset.value === 'no') {
-            const docField = document.getElementById('document-type');
+            const docField = document.querySelector('#live-step-content-area input#document-type');
+            
             if (!docField?.value || docField.value.trim() === '') {
                 docField?.classList.add('invalid');
                 isValid = false;
