@@ -994,6 +994,12 @@ document.addEventListener('DOMContentLoaded', function() {
     modalMessage = document.getElementById('modal-message');
     modalOk = document.getElementById('modal-ok');
     
+    // DEBUG: Check viewport height issues
+    const body = document.body;
+    const html = document.documentElement;
+    
+    // ...existing code...
+    
     setupEventListeners();
     generateInterviewList();
     generateManagementInterviewList();
@@ -1216,6 +1222,9 @@ function showScreen(screenId) {
     screens.forEach(screen => screen.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
     currentScreen = screenId;
+    
+    // DEBUG: Check height when screen changes
+    // ...existing code...
 }
 
 function handlePermission(e) {
