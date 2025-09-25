@@ -998,31 +998,43 @@ function adjustForMobileDevice() {
         const body = document.body;
         const html = document.documentElement;
         
-        // Get actual viewport dimensions
+        // Get viewport dimensions
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
+        const screenHeight = window.screen.height;
+        
+        // Detect navigation bar by comparing viewport height to screen height
+        const hasNavigationBar = (screenHeight - viewportHeight) > 50; // Threshold for nav bar detection
+        const navigationBarHeight = hasNavigationBar ? (screenHeight - viewportHeight) : 0;
+        
+        // Calculate safe area height (accounting for nav bar)
+        const safeAreaHeight = viewportHeight - (hasNavigationBar ? 20 : 0); // Extra padding for nav bar
         
         console.log('Mobile viewport:', viewportWidth, 'x', viewportHeight);
+        console.log('Screen height:', screenHeight);
+        console.log('Navigation bar detected:', hasNavigationBar);
+        console.log('Navigation bar height:', navigationBarHeight);
+        console.log('Safe area height:', safeAreaHeight);
         
-        // Apply mobile-specific styles using actual viewport height
+        // Apply mobile-specific styles using safe area height
         body.style.width = '100vw';
         body.style.maxWidth = '100vw';
         body.style.minWidth = '100vw';
-        body.style.height = viewportHeight + 'px';
-        body.style.maxHeight = viewportHeight + 'px';
-        body.style.minHeight = viewportHeight + 'px';
+        body.style.height = safeAreaHeight + 'px';
+        body.style.maxHeight = safeAreaHeight + 'px';
+        body.style.minHeight = safeAreaHeight + 'px';
         body.style.margin = '0';
         body.style.borderRadius = '0';
         body.style.boxShadow = 'none';
         
-        // Apply to all screens with actual viewport height
+        // Apply to all screens with safe area height
         document.querySelectorAll('.screen').forEach(screen => {
             screen.style.width = '100vw';
             screen.style.maxWidth = '100vw';
             screen.style.minWidth = '100vw';
-            screen.style.height = viewportHeight + 'px';
-            screen.style.maxHeight = viewportHeight + 'px';
-            screen.style.minHeight = viewportHeight + 'px';
+            screen.style.height = safeAreaHeight + 'px';
+            screen.style.maxHeight = safeAreaHeight + 'px';
+            screen.style.minHeight = safeAreaHeight + 'px';
         });
         
         // Apply to containers
@@ -1032,32 +1044,76 @@ function adjustForMobileDevice() {
             container.style.minWidth = '100%';
             container.style.padding = '15px';
             container.style.height = 'auto';
+            container.style.paddingBottom = hasNavigationBar ? '30px' : '15px'; // Extra bottom padding
         });
         
         // Adjust HTML background for mobile
         html.style.backgroundColor = '#f5f5f5';
-        html.style.height = viewportHeight + 'px';
-        html.style.maxHeight = viewportHeight + 'px';
-        html.style.minHeight = viewportHeight + 'px';
+        html.style.height = safeAreaHeight + 'px';
+        html.style.maxHeight = safeAreaHeight + 'px';
+        html.style.minHeight = safeAreaHeight + 'px';
         
-        console.log('Mobile device detected - applied responsive sizing');
+        // Adjust floating button position to avoid navigation bar
+        const floatingBtns = document.querySelectorAll('.floating-plus-btn');
+        floatingBtns.forEach(btn => {
+            btn.style.bottom = hasNavigationBar ? '80px' : '20px'; // Move up if nav bar present
+        });
+        
+        console.log('Mobile device detected - applied responsive sizing with nav bar compensation');
         
         // Handle orientation changes and viewport resizes
         window.addEventListener('resize', () => {
-            const newHeight = window.innerHeight;
-            body.style.height = newHeight + 'px';
-            body.style.maxHeight = newHeight + 'px';
-            body.style.minHeight = newHeight + 'px';
+            const newViewportHeight = window.innerHeight;
+            const newScreenHeight = window.screen.height;
+            const newHasNavigationBar = (newScreenHeight - newViewportHeight) > 50;
+            const newSafeAreaHeight = newViewportHeight - (newHasNavigationBar ? 20 : 0);
+            
+            body.style.height = newSafeAreaHeight + 'px';
+            body.style.maxHeight = newSafeAreaHeight + 'px';
+            body.style.minHeight = newSafeAreaHeight + 'px';
             
             document.querySelectorAll('.screen').forEach(screen => {
-                screen.style.height = newHeight + 'px';
-                screen.style.maxHeight = newHeight + 'px';
-                screen.style.minHeight = newHeight + 'px';
+                screen.style.height = newSafeAreaHeight + 'px';
+                screen.style.maxHeight = newSafeAreaHeight + 'px';
+                screen.style.minHeight = newSafeAreaHeight + 'px';
             });
             
-            html.style.height = newHeight + 'px';
-            html.style.maxHeight = newHeight + 'px';
-            html.style.minHeight = newHeight + 'px';
+            document.querySelectorAll('.container').forEach(container => {
+                container.style.paddingBottom = newHasNavigationBar ? '30px' : '15px';
+            });
+            
+            html.style.height = newSafeAreaHeight + 'px';
+            html.style.maxHeight = newSafeAreaHeight + 'px';
+            html.style.minHeight = newSafeAreaHeight + 'px';
+            
+            // Adjust floating button position
+            document.querySelectorAll('.floating-plus-btn').forEach(btn => {
+                btn.style.bottom = newHasNavigationBar ? '80px' : '20px';
+            });
+        });
+        
+        // Also listen for orientationchange event specifically
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                const newViewportHeight = window.innerHeight;
+                const newScreenHeight = window.screen.height;
+                const newHasNavigationBar = (newScreenHeight - newViewportHeight) > 50;
+                const newSafeAreaHeight = newViewportHeight - (newHasNavigationBar ? 20 : 0);
+                
+                body.style.height = newSafeAreaHeight + 'px';
+                body.style.maxHeight = newSafeAreaHeight + 'px';
+                body.style.minHeight = newSafeAreaHeight + 'px';
+                
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.style.height = newSafeAreaHeight + 'px';
+                    screen.style.maxHeight = newSafeAreaHeight + 'px';
+                    screen.style.minHeight = newSafeAreaHeight + 'px';
+                });
+                
+                html.style.height = newSafeAreaHeight + 'px';
+                html.style.maxHeight = newSafeAreaHeight + 'px';
+                html.style.minHeight = newSafeAreaHeight + 'px';
+            }, 500); // Delay to allow orientation change to complete
         });
     }
 }
