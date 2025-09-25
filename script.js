@@ -998,29 +998,31 @@ function adjustForMobileDevice() {
         const body = document.body;
         const html = document.documentElement;
         
-        // Use full screen dimensions for actual mobile devices
-        const viewportWidth = Math.min(window.innerWidth, window.screen.width);
-        const viewportHeight = Math.min(window.innerHeight, window.screen.availHeight);
+        // Get actual viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
         
-        // Apply mobile-specific styles
+        console.log('Mobile viewport:', viewportWidth, 'x', viewportHeight);
+        
+        // Apply mobile-specific styles using actual viewport height
         body.style.width = '100vw';
         body.style.maxWidth = '100vw';
         body.style.minWidth = '100vw';
-        body.style.height = '100vh';
-        body.style.maxHeight = '100vh';
-        body.style.minHeight = '100vh';
+        body.style.height = viewportHeight + 'px';
+        body.style.maxHeight = viewportHeight + 'px';
+        body.style.minHeight = viewportHeight + 'px';
         body.style.margin = '0';
         body.style.borderRadius = '0';
         body.style.boxShadow = 'none';
         
-        // Apply to all screens
+        // Apply to all screens with actual viewport height
         document.querySelectorAll('.screen').forEach(screen => {
             screen.style.width = '100vw';
             screen.style.maxWidth = '100vw';
             screen.style.minWidth = '100vw';
-            screen.style.height = '100vh';
-            screen.style.maxHeight = '100vh';
-            screen.style.minHeight = '100vh';
+            screen.style.height = viewportHeight + 'px';
+            screen.style.maxHeight = viewportHeight + 'px';
+            screen.style.minHeight = viewportHeight + 'px';
         });
         
         // Apply to containers
@@ -1029,12 +1031,34 @@ function adjustForMobileDevice() {
             container.style.maxWidth = '100%';
             container.style.minWidth = '100%';
             container.style.padding = '15px';
+            container.style.height = 'auto';
         });
         
         // Adjust HTML background for mobile
         html.style.backgroundColor = '#f5f5f5';
+        html.style.height = viewportHeight + 'px';
+        html.style.maxHeight = viewportHeight + 'px';
+        html.style.minHeight = viewportHeight + 'px';
         
         console.log('Mobile device detected - applied responsive sizing');
+        
+        // Handle orientation changes and viewport resizes
+        window.addEventListener('resize', () => {
+            const newHeight = window.innerHeight;
+            body.style.height = newHeight + 'px';
+            body.style.maxHeight = newHeight + 'px';
+            body.style.minHeight = newHeight + 'px';
+            
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.style.height = newHeight + 'px';
+                screen.style.maxHeight = newHeight + 'px';
+                screen.style.minHeight = newHeight + 'px';
+            });
+            
+            html.style.height = newHeight + 'px';
+            html.style.maxHeight = newHeight + 'px';
+            html.style.minHeight = newHeight + 'px';
+        });
     }
 }
 
