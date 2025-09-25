@@ -1057,7 +1057,7 @@ function adjustForMobileDevice() {
         // Apply to navigation buttons
         document.querySelectorAll('#previous-step, #next-step, #finish-interview, #previous-management-step, #next-management-step, #finish-management-interview, #previous-live-step, #next-live-step, #finish-live-interview, #field-prev-step, #field-next-step, #finish-phone-check').forEach(btn => {
             if (btn) {
-                btn.style.marginBottom = hasNavigationBar ? '120px' : '40px';
+                btn.style.marginBottom = hasNavigationBar ? '140px' : '60px';
             }
         });
         
@@ -1115,7 +1115,7 @@ function adjustForMobileDevice() {
             
             document.querySelectorAll('#previous-step, #next-step, #finish-interview, #previous-management-step, #next-management-step, #finish-management-interview, #previous-live-step, #next-live-step, #finish-live-interview, #field-prev-step, #field-next-step, #finish-phone-check').forEach(btn => {
                 if (btn) {
-                    btn.style.marginBottom = newHasNavigationBar ? '120px' : '40px';
+                    btn.style.marginBottom = newHasNavigationBar ? '140px' : '60px';
                 }
             });
             

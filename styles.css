@@ -1670,7 +1670,7 @@ html {
     #previous-management-step, #next-management-step, #finish-management-interview,
     #previous-live-step, #next-live-step, #finish-live-interview,
     #field-prev-step, #field-next-step, #finish-phone-check {
-        margin-bottom: calc(40px + env(safe-area-inset-bottom, 80px)) !important;
+        margin-bottom: calc(60px + env(safe-area-inset-bottom, 100px)) !important;
     }
     
     /* Form elements at bottom of screen */
