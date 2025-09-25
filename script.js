@@ -1037,14 +1037,38 @@ function adjustForMobileDevice() {
             screen.style.minHeight = safeAreaHeight + 'px';
         });
         
-        // Apply to containers
+        // Apply to containers and add navigation bar compensation
         document.querySelectorAll('.container').forEach(container => {
             container.style.width = '100%';
             container.style.maxWidth = '100%';
             container.style.minWidth = '100%';
             container.style.padding = '15px';
             container.style.height = 'auto';
-            container.style.paddingBottom = hasNavigationBar ? '30px' : '15px'; // Extra bottom padding
+            container.style.paddingBottom = hasNavigationBar ? '80px' : '30px'; // More bottom padding
+        });
+        
+        // Apply navigation bar compensation to specific elements
+        document.querySelectorAll('.interview-card, .task-card').forEach(card => {
+            if (card.parentElement && card.parentElement.lastElementChild === card) {
+                card.style.marginBottom = hasNavigationBar ? '80px' : '20px';
+            }
+        });
+        
+        // Apply to navigation buttons
+        document.querySelectorAll('#previous-step, #next-step, #finish-interview, #previous-management-step, #next-management-step, #finish-management-interview, #previous-live-step, #next-live-step, #finish-live-interview, #field-prev-step, #field-next-step, #finish-phone-check').forEach(btn => {
+            if (btn) {
+                btn.style.marginBottom = hasNavigationBar ? '60px' : '20px';
+            }
+        });
+        
+        // Apply to interview lists
+        document.querySelectorAll('.interview-list, .management-interview-list, .live-interview-list, .phone-check-list').forEach(list => {
+            list.style.paddingBottom = hasNavigationBar ? '80px' : '30px';
+        });
+        
+        // Apply to content wrappers
+        document.querySelectorAll('.content-wrapper, .step-content').forEach(wrapper => {
+            wrapper.style.paddingBottom = hasNavigationBar ? '80px' : '30px';
         });
         
         // Adjust HTML background for mobile
@@ -1079,7 +1103,28 @@ function adjustForMobileDevice() {
             });
             
             document.querySelectorAll('.container').forEach(container => {
-                container.style.paddingBottom = newHasNavigationBar ? '30px' : '15px';
+                container.style.paddingBottom = newHasNavigationBar ? '80px' : '30px';
+            });
+            
+            // Update navigation bar compensation for other elements
+            document.querySelectorAll('.interview-card, .task-card').forEach(card => {
+                if (card.parentElement && card.parentElement.lastElementChild === card) {
+                    card.style.marginBottom = newHasNavigationBar ? '80px' : '20px';
+                }
+            });
+            
+            document.querySelectorAll('#previous-step, #next-step, #finish-interview, #previous-management-step, #next-management-step, #finish-management-interview, #previous-live-step, #next-live-step, #finish-live-interview, #field-prev-step, #field-next-step, #finish-phone-check').forEach(btn => {
+                if (btn) {
+                    btn.style.marginBottom = newHasNavigationBar ? '60px' : '20px';
+                }
+            });
+            
+            document.querySelectorAll('.interview-list, .management-interview-list, .live-interview-list, .phone-check-list').forEach(list => {
+                list.style.paddingBottom = newHasNavigationBar ? '80px' : '30px';
+            });
+            
+            document.querySelectorAll('.content-wrapper, .step-content').forEach(wrapper => {
+                wrapper.style.paddingBottom = newHasNavigationBar ? '80px' : '30px';
             });
             
             html.style.height = newSafeAreaHeight + 'px';

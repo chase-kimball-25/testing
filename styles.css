@@ -1648,4 +1648,55 @@ html {
         min-height: 44px;
         padding: 12px 24px;
     }
+    
+    /* Navigation bar compensation for all pages */
+    .interview-list, .management-interview-list, .live-interview-list, .phone-check-list {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom, 40px)) !important;
+    }
+    
+    /* Interview cards and task cards need bottom spacing */
+    .interview-card:last-child, .task-card:last-child {
+        margin-bottom: calc(80px + env(safe-area-inset-bottom, 40px)) !important;
+    }
+    
+    /* Bottom navigation buttons need safe spacing */
+    .bottom-nav, .step-navigation, .interview-navigation {
+        padding-bottom: calc(20px + env(safe-area-inset-bottom, 40px)) !important;
+        margin-bottom: calc(10px + env(safe-area-inset-bottom, 20px)) !important;
+    }
+    
+    /* Step navigation buttons specifically */
+    #previous-step, #next-step, #finish-interview,
+    #previous-management-step, #next-management-step, #finish-management-interview,
+    #previous-live-step, #next-live-step, #finish-live-interview,
+    #field-prev-step, #field-next-step, #finish-phone-check {
+        margin-bottom: calc(20px + env(safe-area-inset-bottom, 40px)) !important;
+    }
+    
+    /* Form elements at bottom of screen */
+    .form-group:last-child, .permission-item:last-child {
+        margin-bottom: calc(30px + env(safe-area-inset-bottom, 50px)) !important;
+    }
+    
+    /* Recording interface buttons */
+    .recording-controls, .sound-quality-controls {
+        padding-bottom: calc(30px + env(safe-area-inset-bottom, 50px)) !important;
+    }
+    
+    /* Any content wrapper that might contain bottom elements */
+    .content-wrapper, .step-content {
+        padding-bottom: calc(30px + env(safe-area-inset-bottom, 50px)) !important;
+    }
+    
+    /* Screen-specific adjustments */
+    #office-interview-screen .container,
+    #management-team-screen .container,
+    #individual-management-interview-screen .container,
+    #live-interview-screen .container,
+    #individual-live-interview-screen .container,
+    #unfinished-check-screen .container,
+    #individual-phone-check-screen .container,
+    #field-interview-tasks-screen .container {
+        padding-bottom: calc(30px + env(safe-area-inset-bottom, 60px)) !important;
+    }
 }
