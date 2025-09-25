@@ -984,6 +984,60 @@ const interviewSteps = {
 // DOM Elements (will be initialized after DOM loads)
 let screens, permissionButtons, modalOverlay, modalTitle, modalMessage, modalOk;
 
+// Mobile device detection
+function isMobileDevice() {
+    const userAgentMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const touchSupport = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const screenSizeMobile = window.innerWidth <= 768;
+    
+    return userAgentMobile || (screenSizeMobile && touchSupport);
+}
+
+function adjustForMobileDevice() {
+    if (isMobileDevice()) {
+        const body = document.body;
+        const html = document.documentElement;
+        
+        // Use full screen dimensions for actual mobile devices
+        const viewportWidth = Math.min(window.innerWidth, window.screen.width);
+        const viewportHeight = Math.min(window.innerHeight, window.screen.availHeight);
+        
+        // Apply mobile-specific styles
+        body.style.width = '100vw';
+        body.style.maxWidth = '100vw';
+        body.style.minWidth = '100vw';
+        body.style.height = '100vh';
+        body.style.maxHeight = '100vh';
+        body.style.minHeight = '100vh';
+        body.style.margin = '0';
+        body.style.borderRadius = '0';
+        body.style.boxShadow = 'none';
+        
+        // Apply to all screens
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.style.width = '100vw';
+            screen.style.maxWidth = '100vw';
+            screen.style.minWidth = '100vw';
+            screen.style.height = '100vh';
+            screen.style.maxHeight = '100vh';
+            screen.style.minHeight = '100vh';
+        });
+        
+        // Apply to containers
+        document.querySelectorAll('.container').forEach(container => {
+            container.style.width = '100%';
+            container.style.maxWidth = '100%';
+            container.style.minWidth = '100%';
+            container.style.padding = '15px';
+        });
+        
+        // Adjust HTML background for mobile
+        html.style.backgroundColor = '#f5f5f5';
+        
+        console.log('Mobile device detected - applied responsive sizing');
+    }
+}
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize DOM elements
@@ -993,6 +1047,9 @@ document.addEventListener('DOMContentLoaded', function() {
     modalTitle = document.getElementById('modal-title');
     modalMessage = document.getElementById('modal-message');
     modalOk = document.getElementById('modal-ok');
+    
+    // Adjust layout for mobile devices
+    adjustForMobileDevice();
     
     // DEBUG: Check viewport height issues
     const body = document.body;
