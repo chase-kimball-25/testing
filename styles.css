@@ -1702,8 +1702,7 @@ html {
     
     /* Individual interview screen mobile fixes */
     #individual-interview-screen.active {
-        display: flex !important;
-        flex-direction: column !important;
+        display: block !important;
         width: 100vw !important;
         min-width: 100vw !important;
         max-width: 100vw !important;
@@ -1712,6 +1711,25 @@ html {
         max-height: calc(100vh - env(safe-area-inset-bottom, 0px)) !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
+        position: relative !important;
+    }
+    
+    #individual-interview-screen .header {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 100 !important;
+        width: 100% !important;
+        background-color: #fff !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+    }
+    
+    #individual-interview-screen .sub-header {
+        position: sticky !important;
+        top: 59px !important;
+        z-index: 99 !important;
+        width: 100% !important;
+        background-color: #fff !important;
+        border-bottom: 1px solid #e0e0e0 !important;
     }
     
     #individual-interview-screen .container {
@@ -1720,15 +1738,15 @@ html {
         max-width: 100% !important;
         padding: 15px !important;
         padding-bottom: calc(140px + env(safe-area-inset-bottom, 80px)) !important;
-        flex: 1 !important;
-        overflow-y: auto !important;
+        overflow-y: visible !important;
+        box-sizing: border-box !important;
     }
     
     #individual-interview-screen .step-content {
-        flex: 1 !important;
         margin-bottom: 0 !important;
         width: 100% !important;
         overflow-x: hidden !important;
+        padding-top: 20px !important;
     }
     
     #individual-interview-screen .navigation-buttons {
