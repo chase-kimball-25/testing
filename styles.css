@@ -1700,7 +1700,7 @@ html {
         padding-bottom: calc(30px + env(safe-area-inset-bottom, 60px)) !important;
     }
     
-    /* Individual interview screen mobile fixes */
+    /* Individual interview screen mobile fixes - ONLY for individual-interview-screen */
     #individual-interview-screen.active {
         display: block !important;
         width: 100vw !important;
@@ -1714,7 +1714,7 @@ html {
         position: relative !important;
     }
     
-    #individual-interview-screen .header {
+    #individual-interview-screen.active .header {
         position: sticky !important;
         top: 0 !important;
         z-index: 100 !important;
@@ -1723,7 +1723,7 @@ html {
         border-bottom: 1px solid #e0e0e0 !important;
     }
     
-    #individual-interview-screen .sub-header {
+    #individual-interview-screen.active .sub-header {
         position: sticky !important;
         top: 59px !important;
         z-index: 99 !important;
@@ -1732,7 +1732,7 @@ html {
         border-bottom: 1px solid #e0e0e0 !important;
     }
     
-    #individual-interview-screen .container {
+    #individual-interview-screen.active .container {
         width: 100% !important;
         min-width: 100% !important;
         max-width: 100% !important;
@@ -1742,43 +1742,43 @@ html {
         box-sizing: border-box !important;
     }
     
-    #individual-interview-screen .step-content {
+    #individual-interview-screen.active .step-content {
         margin-bottom: 0 !important;
         width: 100% !important;
         overflow-x: hidden !important;
         padding-top: 20px !important;
     }
     
-    #individual-interview-screen .navigation-buttons {
+    #individual-interview-screen.active .navigation-buttons {
         width: 100% !important;
         padding: 15px !important;
         margin-bottom: calc(20px + env(safe-area-inset-bottom, 60px)) !important;
         box-sizing: border-box !important;
     }
     
-    /* Ensure form elements fit on mobile */
-    #individual-interview-screen .form-group {
+    /* Ensure form elements fit on mobile - ONLY for individual-interview-screen */
+    #individual-interview-screen.active .form-group {
         width: 100% !important;
         margin-bottom: 20px !important;
     }
     
-    #individual-interview-screen input, 
-    #individual-interview-screen textarea, 
-    #individual-interview-screen select {
+    #individual-interview-screen.active input, 
+    #individual-interview-screen.active textarea, 
+    #individual-interview-screen.active select {
         width: 100% !important;
         box-sizing: border-box !important;
         font-size: 16px !important; /* Prevent zoom on iOS */
     }
     
-    /* Radio buttons and checkboxes mobile styling */
-    #individual-interview-screen .radio-group,
-    #individual-interview-screen .checkbox-group {
+    /* Radio buttons and checkboxes mobile styling - ONLY for individual-interview-screen */
+    #individual-interview-screen.active .radio-group,
+    #individual-interview-screen.active .checkbox-group {
         width: 100% !important;
         overflow-x: hidden !important;
     }
     
-    #individual-interview-screen .radio-option,
-    #individual-interview-screen .checkbox-option {
+    #individual-interview-screen.active .radio-option,
+    #individual-interview-screen.active .checkbox-option {
         width: 100% !important;
         margin-bottom: 15px !important;
         padding: 15px !important;
