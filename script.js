@@ -1037,6 +1037,21 @@ function adjustForMobileDevice() {
             screen.style.minHeight = safeAreaHeight + 'px';
         });
         
+        // Special handling for individual interview screen
+        const individualInterviewScreen = document.getElementById('individual-interview-screen');
+        if (individualInterviewScreen) {
+            individualInterviewScreen.style.display = 'flex';
+            individualInterviewScreen.style.flexDirection = 'column';
+            individualInterviewScreen.style.width = '100vw';
+            individualInterviewScreen.style.maxWidth = '100vw';
+            individualInterviewScreen.style.minWidth = '100vw';
+            individualInterviewScreen.style.height = safeAreaHeight + 'px';
+            individualInterviewScreen.style.maxHeight = safeAreaHeight + 'px';
+            individualInterviewScreen.style.minHeight = safeAreaHeight + 'px';
+            individualInterviewScreen.style.overflowY = 'auto';
+            individualInterviewScreen.style.overflowX = 'hidden';
+        }
+        
         // Apply to containers and add navigation bar compensation
         document.querySelectorAll('.container').forEach(container => {
             container.style.width = '100%';
