@@ -1015,6 +1015,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (stepContentArea) {
         stepContentArea.innerHTML = '';
     }
+    
+    // Hide all floating buttons initially
+    document.querySelectorAll('.floating-plus-btn, .live-floating-plus-btn, .phone-check-floating-plus-btn').forEach(btn => {
+        if (btn) btn.style.display = 'none';
+    });
+    
     showScreen('work-order-screen'); // Skip login and permissions for demo
 });
 
@@ -1223,11 +1229,6 @@ function showScreen(screenId) {
     document.getElementById(screenId).classList.add('active');
     currentScreen = screenId;
     
-    // Hide all floating buttons when switching screens to prevent bleeding
-    document.querySelectorAll('.floating-plus-btn, .live-floating-plus-btn, .phone-check-floating-plus-btn').forEach(btn => {
-        if (btn) btn.style.display = 'none';
-    });
-    
     // Hide any modals that might be open
     const modalOverlay = document.getElementById('modal-overlay');
     if (modalOverlay) modalOverlay.classList.remove('active');
@@ -1237,6 +1238,20 @@ function showScreen(screenId) {
         screen.style.overflow = '';
         screen.style.position = '';
     });
+    
+    // Hide all floating buttons first
+    document.querySelectorAll('.floating-plus-btn, .live-floating-plus-btn, .phone-check-floating-plus-btn').forEach(btn => {
+        if (btn) btn.style.display = 'none';
+    });
+    
+    // Show appropriate content and floating buttons based on screen
+    if (screenId === 'management-team-screen') {
+        generateManagementInterviewList();
+    } else if (screenId === 'live-interview-screen') {
+        generateLiveInterviewList();
+    } else if (screenId === 'unfinished-check-screen') {
+        generatePhoneCheckList();
+    }
     
     // DEBUG: Check height when screen changes
     // ...existing code...

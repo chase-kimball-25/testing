@@ -779,7 +779,7 @@ html {
     box-shadow: 0 4px 12px rgba(2, 129, 166, 0.3);
     transition: all 0.2s ease;
     z-index: 200;
-    display: none;
+    display: none; /* Hidden by default to prevent bleeding */
     align-items: center;
     justify-content: center;
     line-height: 1;
