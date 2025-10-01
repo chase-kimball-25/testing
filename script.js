@@ -1241,7 +1241,9 @@ function showScreen(screenId) {
     
     // Hide all floating buttons first
     document.querySelectorAll('.floating-plus-btn, .live-floating-plus-btn, .phone-check-floating-plus-btn').forEach(btn => {
-        if (btn) btn.style.display = 'none';
+        if (btn) {
+            btn.style.display = 'none';
+        }
     });
     
     // Show appropriate content and floating buttons based on screen
