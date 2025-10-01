@@ -44,6 +44,7 @@ html {
 /* Container */
 .container {
     padding: 20px;
+    padding-bottom: 100px; /* Extra padding to ensure floating buttons are visible */
     width: 100%;
     margin: 0;
     box-sizing: border-box;
