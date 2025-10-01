@@ -1223,6 +1223,21 @@ function showScreen(screenId) {
     document.getElementById(screenId).classList.add('active');
     currentScreen = screenId;
     
+    // Hide all floating buttons when switching screens to prevent bleeding
+    document.querySelectorAll('.floating-plus-btn, .live-floating-plus-btn, .phone-check-floating-plus-btn').forEach(btn => {
+        if (btn) btn.style.display = 'none';
+    });
+    
+    // Hide any modals that might be open
+    const modalOverlay = document.getElementById('modal-overlay');
+    if (modalOverlay) modalOverlay.classList.remove('active');
+    
+    // Reset any temporary styles that might have been applied
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.style.overflow = '';
+        screen.style.position = '';
+    });
+    
     // DEBUG: Check height when screen changes
     // ...existing code...
 }

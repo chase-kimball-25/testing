@@ -10,59 +10,42 @@ body {
     background-color: #f5f5f5;
     color: #333;
     line-height: 1.6;
-    /* Mobile-first: Constrain to mobile viewport on all devices */
-    width: 414px !important; /* Force fixed width with !important */
-    min-width: 414px !important; /* Prevent shrinking */
-    max-width: 414px !important; /* iPhone Pro Max width */
-    height: 812px !important; /* iPhone X height - fixed viewport height */
-    min-height: 812px !important;
-    max-height: 812px !important;
+    width: 414px;
+    max-width: 414px;
+    height: 812px;
     margin: 0 auto;
-    overflow-x: hidden; /* Prevent horizontal overflow */
-    overflow-y: auto; /* Allow vertical scrolling */
+    overflow: hidden;
 }
 
 /* Add a background for the space around the mobile viewport on desktop */
 html {
     background-color: #e5e5e5;
-    height: auto !important; /* Don't force HTML height */
-    min-height: auto !important; /* Remove min-height constraint */
-    max-height: none !important; /* Remove max-height constraint */
 }
 
 /* Ensure all screens maintain consistent width */
 .screen {
     display: none;
-    height: 812px !important;
-    min-height: 812px !important;
-    max-height: 812px !important;
+    height: 812px;
     position: relative;
     background-color: #f5f5f5;
-    width: 414px !important; /* Force all screens to exact width */
-    min-width: 414px !important; /* Prevent shrinking */
-    max-width: 414px !important; /* Override any max-width constraints */
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    overflow-y: auto; /* Allow vertical scrolling within screens */
+    width: 414px;
+    overflow: hidden;
 }
 
 .screen.active {
     display: block;
-    width: 414px !important;
-    min-width: 414px !important;
-    max-width: 414px !important;
-    height: 812px !important;
-    min-height: 812px !important;
-    max-height: 812px !important;
+    width: 414px;
+    height: 812px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* Container */
 .container {
     padding: 20px;
-    width: 414px !important; /* Fixed width matching parent */
-    min-width: 414px !important;
-    max-width: 414px !important;
+    width: 100%;
     margin: 0;
-    box-sizing: border-box; /* Include padding in width calculation */
+    box-sizing: border-box;
 }
 
 /* Header */
@@ -577,12 +560,8 @@ html {
 #individual-interview-screen.active {
     display: flex;
     flex-direction: column;
-    width: 414px !important;
-    min-width: 414px !important;
-    max-width: 414px !important;
-    height: 812px !important;
-    min-height: 812px !important;
-    max-height: 812px !important;
+    width: 414px;
+    height: 812px;
 }
 
 #individual-interview-screen .step-content {
@@ -785,7 +764,7 @@ html {
 
 /* Floating Plus Button */
 .floating-plus-btn {
-    position: absolute;
+    position: fixed;
     bottom: 30px;
     right: 30px;
     width: 60px;
@@ -800,7 +779,7 @@ html {
     box-shadow: 0 4px 12px rgba(2, 129, 166, 0.3);
     transition: all 0.2s ease;
     z-index: 200;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     line-height: 1;
@@ -1509,15 +1488,6 @@ html {
     }
     
     body {
-        overflow-x: hidden; /* Prevent horizontal overflow */
-        overflow-y: auto; /* Allow vertical scrolling */
-        height: 812px !important; /* Fixed height to match iPhone X / modern phone height */
-        min-height: 812px !important;
-        max-height: 812px !important;
-        width: 414px !important; /* Ensure width stays fixed on desktop too */
-        min-width: 414px !important;
-        max-width: 414px !important;
-        position: relative;
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
