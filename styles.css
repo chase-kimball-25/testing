@@ -15,6 +15,7 @@ body {
     height: 812px;
     margin: 0 auto;
     overflow: hidden;
+    position: relative; /* For floating button positioning */
 }
 
 /* Add a background for the space around the mobile viewport on desktop */
@@ -764,7 +765,7 @@ html {
 
 /* Floating Plus Button */
 .floating-plus-btn {
-    position: fixed;
+    position: absolute;
     bottom: 30px;
     right: 30px;
     width: 60px;
