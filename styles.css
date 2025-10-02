@@ -14,9 +14,9 @@ body {
     max-width: 414px;
     height: 812px;
     margin: 0 auto;
-    overflow: hidden;
+    overflow-y: auto; /* Allow vertical scrolling instead of hidden */
+    overflow-x: hidden; /* Keep horizontal hidden */
     position: relative; /* For floating button positioning */
-    padding-bottom: 40px; /* Bottom padding for mobile content visibility */
 }
 
 /* Add a background for the space around the mobile viewport on desktop */
@@ -31,7 +31,8 @@ html {
     position: relative;
     background-color: #f5f5f5;
     width: 414px;
-    overflow: hidden;
+    overflow-y: auto; /* Allow vertical scrolling */
+    overflow-x: hidden; /* Keep horizontal hidden */
 }
 
 .screen.active {
