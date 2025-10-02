@@ -16,6 +16,7 @@ body {
     margin: 0 auto;
     overflow: hidden;
     position: relative; /* For floating button positioning */
+    padding-bottom: 40px; /* Bottom padding for mobile content visibility */
 }
 
 /* Add a background for the space around the mobile viewport on desktop */
